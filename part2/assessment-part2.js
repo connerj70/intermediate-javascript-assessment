@@ -42,8 +42,15 @@ function noWeakLink() {
   return $http({
     method: 'GET',
     url: '/api/users'
+  }).then( (resp) => {
+    console.log(resp.data);
+    firstUser = resp.data[0]
+    return resp
+  }).then((resp) => {
+    thirdUser = resp.data[2]
+    return resp.data[9];
   })
-  // CODE HERE...
+  
 
 }
 
@@ -75,7 +82,7 @@ function large() {
 }
 // CODE HERE...
 
-
+let boundToElephant = large.bind(elephant)
 
 // *************
 // * PROBLEM 3 *
@@ -89,7 +96,9 @@ function large() {
 
 // CODE HERE...
 
-
+function deathStar(capacity, crew) {
+  return capacity.bind(crew)
+}
 
 // *************
 // * PROBLEM 4 *
@@ -103,7 +112,11 @@ function large() {
 // The closure function will return the combined value of assets and liabilities.
 
 // CODE HERE...
-
+function accountingOffice(assets) {
+  return function(liabilities) {
+    return assets + liabilities
+  }
+}
 
 
 // *************
@@ -129,7 +142,19 @@ function large() {
 
 // CODE HERE...
 
+function forgetter(name) {
+  let toRemember = [];
+  return function rememberall(item) {
+    toRemember.push(item)
+    return {
+      name: name,
+      remember: toRemember
+    }
+  }
+}
 
+let store1 = forgetter('Conner')
+console.log(store1('holla'))
 
 // *************
 // * PROBLEM 6 *
@@ -156,3 +181,48 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+
+function frodo(startingHungerValue, startingDangerValue) {
+  let hung = startingHungerValue;
+  let dang = startingDangerValue;
+  return function() {
+    return {
+      dinnerOverFire: function() {
+
+        hung = hung - 25;
+        dang = dang + 40;
+        if(hung< 0) {
+          hung = 0;
+        }
+        if(dang> 100) {
+          dang = 100;
+        } 
+        return {
+          hunger: hung,
+          danger: dang
+        }
+      },
+
+      hidingInBush: function() {
+        hung = hung + 35;
+        dang = dang - 20;
+        if(hung > 100) {
+          hung = 100;
+        }
+        if(dang < 0) {
+          dang = 0;
+        }
+        return {
+          hunger: hung,
+          danger: dang
+        }
+      }
+    }
+  }()
+}
+
+let frodo1 = frodo(50, 50);
+console.log(frodo1().dinnerOverFire());
+console.log(frodo1().dinnerOverFire());
+console.log(frodo1().hidingInBush());
+console.log(frodo1);
