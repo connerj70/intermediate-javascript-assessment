@@ -103,7 +103,7 @@ function emailList(param1, param2) {
             console.log(resp)
             resolve(emailArr)
         })       
-    })
+    });
 
    
 }
